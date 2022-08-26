@@ -1,0 +1,10 @@
+import { Provider } from '@ethersproject/abstract-provider';
+import { BigNumber } from '@ethersproject/bignumber';
+import { ContractTransaction, Event } from '@ethersproject/contracts';
+import type { SplitRecipient } from '../types';
+export declare const getRecipientSortedAddressesAndAllocations: (recipients: SplitRecipient[]) => [string[], BigNumber[]];
+export declare const getBigNumberValue: (value: number) => BigNumber;
+export declare const fromBigNumberValue: (value: number | BigNumber) => number;
+export declare const getTransactionEvent: (transaction: ContractTransaction, eventSignature: string) => Promise<Event | undefined>;
+export declare const fetchERC20TransferredTokens: (chainId: number, provider: Provider, splitId: string) => Promise<string[]>;
+export declare const addEnsNames: (provider: Provider, recipients: SplitRecipient[]) => Promise<void>;
