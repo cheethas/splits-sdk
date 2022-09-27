@@ -82,6 +82,7 @@ export class SplitsClient {
     chainId,
     provider,
     signer,
+    host = 'https://api.thegraph.com',
     includeEnsNames = false,
   }: SplitsClientConfig) {
     if (includeEnsNames && !provider)
@@ -105,7 +106,7 @@ export class SplitsClient {
 
     this._chainId = chainId
     this._signer = signer ?? MISSING_SIGNER
-    this._graphqlClient = getGraphqlClient(chainId)
+    this._graphqlClient = getGraphqlClient(chainId, host)
     this._includeEnsNames = includeEnsNames
   }
 

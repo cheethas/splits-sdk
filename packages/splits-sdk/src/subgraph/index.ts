@@ -9,11 +9,10 @@ import { fromBigNumberValue } from '../utils'
 import { GqlRecipient, GqlSplit, GqlTokenBalance } from './types'
 
 const GQL_ENDPOINTS: { [chainId: number]: string } = {
-  1: 'https://api.thegraph.com/subgraphs/name/0xsplits/splits-subgraph-ethereum',
-  5: 'https://api.thegraph.com/subgraphs/name/0xsplits/splits-subgraph-goerli',
-  137: 'https://api.thegraph.com/subgraphs/name/0xsplits/splits-subgraph-polygon',
-  80001:
-    'https://api.thegraph.com/subgraphs/name/0xsplits/splits-subgraph-mumbai',
+  1: '/subgraphs/name/0xsplits/splits-subgraph-ethereum',
+  5: '/subgraphs/name/0xsplits/splits-subgraph-goerli',
+  137: '/subgraphs/name/0xsplits/splits-subgraph-polygon',
+  80001: '/subgraphs/name/0xsplits/splits-subgraph-mumbai',
 }
 
 const TOKEN_BALANCE_FIELDS_FRAGMENT = gql`
@@ -168,10 +167,12 @@ export const ACCOUNT_BALANCES_QUERY = gql`
   ${ACCOUNT_BALANCES_FRAGMENT}
 `
 
+// Allow a custom host to be provided for the subgraph if being indexed in alternative infrastructure
 export const getGraphqlClient = (
   chainId: number,
+  host: string,
 ): GraphQLClient | undefined => {
   if (!SPLITS_SUBGRAPH_CHAIN_IDS.includes(chainId)) return
 
-  return new GraphQLClient(GQL_ENDPOINTS[chainId])
+  return new GraphQLClient(host + GQL_ENDPOINTS[chainId])
 }
