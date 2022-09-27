@@ -1,5 +1,5 @@
 {
-  "name": "0xsplits",
+  "name": "cheethas-splits-patch",
   "private": true,
   "scripts": {
     "eslint": "eslint . --ext '.ts,.tsx'",
