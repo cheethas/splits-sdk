@@ -9,10 +9,10 @@ import { fromBigNumberValue } from '../utils'
 import { GqlRecipient, GqlSplit, GqlTokenBalance } from './types'
 
 const GQL_ENDPOINTS: { [chainId: number]: string } = {
-  1: '/subgraphs/name/0xsplits/splits-subgraph-ethereum',
-  5: '/subgraphs/name/0xsplits/splits-subgraph-goerli',
-  137: '/subgraphs/name/0xsplits/splits-subgraph-polygon',
-  80001: '/subgraphs/name/0xsplits/splits-subgraph-mumbai',
+  1: '/subgraphs/name/0xSplits/splits-subgraph-ethereum',
+  5: '/subgraphs/name/0xSplits/splits-subgraph-goerli',
+  137: '/subgraphs/name/0xSplits/splits-subgraph-polygon',
+  80001: '/subgraphs/name/0xSplits/splits-subgraph-mumbai',
 }
 
 const TOKEN_BALANCE_FIELDS_FRAGMENT = gql`
