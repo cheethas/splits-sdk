@@ -62,6 +62,7 @@ import {
 import type { SplitMain as SplitMainEthereumType } from './typechain/SplitMain/ethereum'
 import type { SplitMain as SplitMainPolygonType } from './typechain/SplitMain/polygon'
 import { Signer } from '@ethersproject/abstract-signer'
+import { ContractTransaction } from 'ethers'
 
 const MISSING_SIGNER = ''
 
@@ -116,8 +117,8 @@ export class SplitsClient {
     distributorFeePercent,
     controller = AddressZero,
   }: CreateSplitConfig): Promise<{
-    splitId: string
-    event: Event
+    tx: ContractTransaction
+    event: Promise<Event | undefined>
   }> {
     validateRecipients(recipients)
     validateDistributorFeePercent(distributorFeePercent)
@@ -130,17 +131,15 @@ export class SplitsClient {
     const createSplitTx = await this._splitMain
       .connect(this._signer)
       .createSplit(accounts, percentAllocations, distributorFee, controller)
-    const event = await getTransactionEvent(
+    const event = getTransactionEvent(
       createSplitTx,
       this._splitMain.interface.getEvent('CreateSplit').format(),
     )
-    if (event && event.args)
-      return {
-        splitId: event.args.split,
-        event,
-      }
 
-    throw new TransactionFailedError()
+    return {
+      tx: createSplitTx,
+      event,
+    }
   }
 
   async updateSplit({
@@ -148,6 +147,7 @@ export class SplitsClient {
     recipients,
     distributorFeePercent,
   }: UpdateSplitConfig): Promise<{
+    tx: ContractTransaction
     event: Event
   }> {
     validateAddress(splitId)
@@ -167,7 +167,11 @@ export class SplitsClient {
       updateSplitTx,
       this._splitMain.interface.getEvent('UpdateSplit').format(),
     )
-    if (event) return { event }
+    if (event)
+      return {
+        tx: updateSplitTx,
+        event,
+      }
 
     throw new TransactionFailedError()
   }
