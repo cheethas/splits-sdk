@@ -93,10 +93,34 @@ const mockSignerNewController = jest.fn<Signer, unknown[]>(() => {
 })
 
 describe('Client config validation', () => {
+  const provider = new mockProvider()
+
   test('Including ens names with no provider fails', () => {
     expect(
       () => new SplitsClient({ chainId: 1, includeEnsNames: true }),
     ).toThrow(InvalidConfigError)
+  })
+
+  test('Including ens names with only ens provider passes', () => {
+    expect(
+      () =>
+        new SplitsClient({
+          chainId: 1,
+          includeEnsNames: true,
+          ensProvider: provider,
+        }),
+    ).not.toThrow()
+  })
+
+  test('Including ens names with only regular provider passes', () => {
+    expect(
+      () =>
+        new SplitsClient({
+          chainId: 1,
+          includeEnsNames: true,
+          provider,
+        }),
+    ).not.toThrow()
   })
 
   test('Invalid chain id fails', () => {
@@ -116,6 +140,16 @@ describe('Client config validation', () => {
   test('Polygon chain ids pass', () => {
     expect(() => new SplitsClient({ chainId: 137 })).not.toThrow()
     expect(() => new SplitsClient({ chainId: 80001 })).not.toThrow()
+  })
+
+  test('Optimism chain ids pass', () => {
+    expect(() => new SplitsClient({ chainId: 10 })).not.toThrow()
+    expect(() => new SplitsClient({ chainId: 420 })).not.toThrow()
+  })
+
+  test('Arbitrum chain ids pass', () => {
+    expect(() => new SplitsClient({ chainId: 42161 })).not.toThrow()
+    expect(() => new SplitsClient({ chainId: 421613 })).not.toThrow()
   })
 })
 
