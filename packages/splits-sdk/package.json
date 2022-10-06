@@ -1,6 +1,6 @@
 {
   "name": "@cheethas/splits-sdk",
-  "version": "2.0.6-alpha.0",
+  "version": "2.0.7-alpha.0",
   "description": "Fork of the splits SDK for the 0xSplits protocol, testing experimental features",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
