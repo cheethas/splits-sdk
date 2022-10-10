@@ -27,13 +27,14 @@ import {
 } from './errors'
 import {
   ACCOUNT_BALANCES_QUERY,
+  DISTRIBUTION_EVENT_QUERY,
   formatAccountBalances,
   getGraphqlClient,
   protectedFormatSplit,
   RELATED_SPLITS_QUERY,
   SPLIT_QUERY,
 } from './subgraph'
-import type { GqlAccountBalances, GqlSplit } from './subgraph/types'
+import type { DistributedEvent, GqlAccountBalances, GqlSplit } from './subgraph/types'
 import type {
   SplitMainType,
   SplitsClientConfig,
@@ -625,6 +626,18 @@ export class SplitsClient {
 
     return { withdrawn, activeBalances }
   }
+
+
+  
+//--------------------Distribution events query addition--------------//
+async getDistributionEvents(account:string, skip: number):Promise <any> {
+ 
+  const response = await this._makeGqlRequest<{distributedEvent: DistributedEvent}>(DISTRIBUTION_EVENT_QUERY, {
+    account: account, skip: skip
+  });
+  return response;
+  }
+  //--------------------Distribution events query addition--------------//
 
   // Helper functions
   private _requireSplitMain() {

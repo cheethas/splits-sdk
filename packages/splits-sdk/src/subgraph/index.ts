@@ -133,6 +133,24 @@ export const formatAccountBalances = (
   }, {} as TokenBalances)
 }
 
+ //--------------------Distribution events query addition--------------//
+ export const DISTRIBUTION_EVENT_QUERY = gql`
+ query distributionEvents($account: String, $skip: Int){
+   distributionEvents(orderBy: timestamp, orderDirection: desc, first: 200, skip: $skip, where: {account: $account}) {
+     amount
+     timestamp
+     account {
+       id
+     }
+     token {
+       id
+     }
+   }
+ }
+ `
+ //--------------------Distribution events query addition--------------//
+ 
+
 export const SPLIT_QUERY = gql`
   query split($splitId: ID!) {
     split(id: $splitId) {
