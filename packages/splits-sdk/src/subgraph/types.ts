@@ -45,4 +45,17 @@ export type GqlUser = {
   upstream?: GqlRecipient[]
 }
 
+//--------------------Distribution events query addition--------------//
+export type DistributedEvent= {
+  amount?: Scalars['Int'],
+  timestamp?: Scalars['Int'] ,
+  account: {
+    id: Scalars['ID'],
+  },
+  token: {
+    id: Scalars['ID'],
+  }
+}[]
+//--------------------Distribution events query addition--------------//
+
 export type GqlAccount = GqlUser | GqlSplit

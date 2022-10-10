@@ -8,3 +8,5 @@ yarn-error.log*
 
 # build
 packages/*/dist
+
+.DS_Store
