@@ -34,7 +34,11 @@ import {
   RELATED_SPLITS_QUERY,
   SPLIT_QUERY,
 } from './subgraph'
-import type { DistributedEvent, GqlAccountBalances, GqlSplit } from './subgraph/types'
+import type {
+  DistributedEvent,
+  GqlAccountBalances,
+  GqlSplit,
+} from './subgraph/types'
 import type {
   SplitMainType,
   SplitsClientConfig,
@@ -161,7 +165,7 @@ export class SplitsClient {
     distributorFeePercent,
   }: UpdateSplitConfig): Promise<{
     tx: ContractTransaction
-    event: Event
+    event: Promise<Event | undefined>
   }> {
     validateAddress(splitId)
     validateRecipients(recipients)
@@ -176,17 +180,14 @@ export class SplitsClient {
     const updateSplitTx = await this._splitMain
       .connect(this._signer)
       .updateSplit(splitId, accounts, percentAllocations, distributorFee)
-    const event = await getTransactionEvent(
+    const event = getTransactionEvent(
       updateSplitTx,
       this._splitMain.interface.getEvent('UpdateSplit').format(),
     )
-    if (event)
-      return {
-        tx: updateSplitTx,
-        event,
-      }
-
-    throw new TransactionFailedError()
+    return {
+      tx: updateSplitTx,
+      event,
+    }
   }
 
   async distributeToken({
@@ -627,15 +628,15 @@ export class SplitsClient {
     return { withdrawn, activeBalances }
   }
 
-
-  
-//--------------------Distribution events query addition--------------//
-async getDistributionEvents(account:string, skip: number):Promise <any> {
- 
-  const response = await this._makeGqlRequest<{distributedEvent: DistributedEvent}>(DISTRIBUTION_EVENT_QUERY, {
-    account: account, skip: skip
-  });
-  return response;
+  //--------------------Distribution events query addition--------------//
+  async getDistributionEvents(account: string, skip: number): Promise<any> {
+    const response = await this._makeGqlRequest<{
+      distributedEvent: DistributedEvent
+    }>(DISTRIBUTION_EVENT_QUERY, {
+      account: account,
+      skip: skip,
+    })
+    return response
   }
   //--------------------Distribution events query addition--------------//
 
