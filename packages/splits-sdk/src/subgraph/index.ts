@@ -157,8 +157,12 @@ export const DISTRIBUTION_EVENT_QUERY = gql`
 //--------------------Distribution events query addition--------------//
 
 export const ALL_SPLITS_QUERY = gql`
-  query allSplits($skip: Int) {
-    splits(first: 200, skip: $skip) {
+  query allSplits($skip: Int, $startBlock: Int, $endBlock: Int) {
+    splits(
+      first: 200
+      skip: $skip
+      where: { createdBlock_gte: $startBlock, createdBlock_lte: $endBlock }
+    ) {
       id
       recipients(orderBy: ownership, orderDirection: desc) {
         account {
@@ -168,6 +172,7 @@ export const ALL_SPLITS_QUERY = gql`
       }
       distributorFee
       controller
+      createdBlock
     }
   }
 `

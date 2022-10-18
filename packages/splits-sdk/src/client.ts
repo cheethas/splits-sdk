@@ -642,9 +642,15 @@ export class SplitsClient {
   }
   //--------------------Distribution events query addition--------------//
 
-  getAllSplits(skip: number): Promise<AllSplitsResponse> {
+  getAllSplits(
+    skip: number,
+    startBlock: number,
+    endBlock: number,
+  ): Promise<AllSplitsResponse> {
     return this._makeGqlRequest(ALL_SPLITS_QUERY, {
       skip,
+      startBlock,
+      endBlock,
     })
   }
 
