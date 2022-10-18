@@ -91,7 +91,5 @@ export type Split = {
 }
 
 export type AllSplitsResponse = {
-  data: {
-    splits: Split[]
-  }
+  splits: Split[]
 }
