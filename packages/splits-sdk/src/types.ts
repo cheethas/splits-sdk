@@ -89,3 +89,9 @@ export type Split = {
   recipients: SplitRecipient[]
   createdBlock: number
 }
+
+export type AllSplitsResponse = {
+  data: {
+    splits: Split[]
+  }
+}

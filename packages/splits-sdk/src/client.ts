@@ -27,6 +27,7 @@ import {
 } from './errors'
 import {
   ACCOUNT_BALANCES_QUERY,
+  ALL_SPLITS_QUERY,
   DISTRIBUTION_EVENT_QUERY,
   formatAccountBalances,
   getGraphqlClient,
@@ -55,6 +56,7 @@ import type {
   SplitRecipient,
   Split,
   TokenBalances,
+  AllSplitsResponse,
 } from './types'
 import {
   getRecipientSortedAddressesAndAllocations,
@@ -639,6 +641,12 @@ export class SplitsClient {
     return response
   }
   //--------------------Distribution events query addition--------------//
+
+  getAllSplits(skip: number): Promise<AllSplitsResponse> {
+    return this._makeGqlRequest(ALL_SPLITS_QUERY, {
+      skip,
+    })
+  }
 
   // Helper functions
   private _requireSplitMain() {
